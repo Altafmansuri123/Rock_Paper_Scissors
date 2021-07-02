@@ -15,8 +15,9 @@ function computerPlay() {
 }
 
 let result = "";
-let winCount = 0;
-let loseCount = 0;
+let playerScore = 0;
+let computerScore = 0;
+let i = 0;
 
 function playRound(playerSelection, computerSelection) {
     // your code here!
@@ -26,18 +27,19 @@ function playRound(playerSelection, computerSelection) {
         if (playerSelection === "ROCK" && computerSelection === "SCISSOR" ||
             playerSelection === "PAPER" && computerSelection === "ROCK" ||
             playerSelection === "SCISSOR" && computerSelection === "PAPER") {
-            winCount++;
+            playerScore++;
             result = `You Win! ${playerSelection} beats ${computerSelection} `;
             return result;
         }
         else {
-            loseCount++;
+            computerScore++;
             result = `You Lose! ${computerSelection} beats ${playerSelection}`;
             return result;
         }
 
     } else {
-        result = "Match Draws";
+        result = `It's a tie. You both chose ${playerSelection}`;
+        i--;
         return result;
     }
 
@@ -51,19 +53,32 @@ function playRound(playerSelection, computerSelection) {
 game();
 
 function game() {
-    for (let i = 0; i < 5; i++) {
+    for (i = 1; i < 10; i++) {
+
         const playerSelection = prompt("Enter Your Choice Either Rock,Paper or Scissor");
+
+        if (playerSelection.toUpperCase() !== "ROCK" &&
+            playerSelection.toUpperCase() !== "PAPER" &&
+            playerSelection.toUpperCase() !== "SCISSOR") {
+            alert("invalid input! Please Enter a valid input");
+            i--;
+            continue;
+        }
+
+
         const computerSelection = computerPlay();
         console.log(playRound(playerSelection.toUpperCase(), computerSelection.toUpperCase()));
+
+        if (playerScore === 5 || computerScore === 5) {
+            break;
+        }
     }
 
-    if (winCount > loseCount) {
-        console.log("HURRAY YOU WIN!!!!");
-    }
-    else if (winCount < loseCount) {
-        console.log("YOU LOSE BETTER LUCK NEXT TIME!");
+    if (playerScore === 5) {
+        console.log("You won the game! Reload the page to play again");
     }
     else {
-        console.log("MATCH TIE");
+        console.log("You Lose the game! Reload the page to play again");
     }
+
 }
